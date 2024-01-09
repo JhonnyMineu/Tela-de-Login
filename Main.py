@@ -1,28 +1,24 @@
-import customtkinter
+import tkinter
 
-customtkinter.set_appearance_mode("dark")
-customtkinter.set_default_color_theme("green")
-
-janela = customtkinter.CTk()
+janela = tkinter.Tk()
 janela.geometry("500x300")
 
 def clique():
     print("Teste")
     
-
-texto = customtkinter.CTkLabel(janela, text="Login")
+texto = tkinter.Label(janela, text="Login")
 texto.pack(padx=10, pady=10)
 
-email = customtkinter.CTkEntry(janela, placeholder_text= "Seu e-mail")
+email = tkinter.Entry(janela)
 email.pack(padx=10, pady=10)
 
-senha = customtkinter.CTkEntry(janela, placeholder_text= "Sua senha", show="*")
+senha = tkinter.Entry(janela, show="*")
 senha.pack(padx=10, pady=10)
 
-checkbox = customtkinter.CTkCheckBox(janela, text="Mostrar senha?")
+checkbox = tkinter.Checkbutton (janela, text="Mostrar senha?")
 checkbox.pack(padx=10, pady=10)
 
-botao = customtkinter.CTkButton(janela, text="Entrar", command=clique)
+botao = tkinter.Button(janela, text="Entrar", command=clique)
 botao.pack(padx=10, pady=10)
 
 janela.mainloop()
