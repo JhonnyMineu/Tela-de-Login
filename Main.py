@@ -1,7 +1,11 @@
 import customtkinter as ctk
 from tkinter import *
+from tkinter import messagebox
+import csv
 
 janela = ctk.CTk()
+
+check_var = ctk.IntVar(value=0)
 
 class Application():
     def __init__(self):
@@ -24,6 +28,21 @@ class Application():
         janela.iconbitmap("logo.ico")
 
     def janela_login(self):
+
+        def checkbox_event():
+            if checkbox.get() == 1:
+                senha.configure(show="",placeholder_text= "Sua senha")
+            else:
+                senha.configure(show="*",placeholder_text= "Sua senha")
+
+        def validar_login():
+            with open('Users.txt', 'r') as f:
+                leitor = csv.DictReader(f)  # cria um leitor de CSV que mapeia os valores em cada linha para um dicionário ordenado
+                for linha in leitor:
+                    if linha['Login'] == usuario.get() and linha['Senha'] == senha.get():  # compara os valores de 'Login' e 'Senha' com 'entry' e 'senha'
+                        return print('Login bem-sucedido!')
+            return messagebox.showinfo("Acesso negado!",message="Login ou senha incorretos.")
+
         # Imagem do bidu 
         img = PhotoImage(file="C:/Users/jhow_/OneDrive/Documentos/GitHub/Tela-de-Login/bidu.png")
         label_img = ctk.CTkLabel(janela, image=img, text="")
@@ -37,15 +56,20 @@ class Application():
         texto = ctk.CTkLabel(frame, text="Login", font=('Roboto', 30, 'bold'), text_color= ('white'))
         texto.place(x=140,y=60)
 
-        usuario = ctk.CTkEntry(frame, placeholder_text= "Seu usuário", width=300, font=('Roboto', 14)).place(x=25,y=155)
+        usuario = ctk.CTkEntry(frame, placeholder_text= "Seu usuário", width=300, font=('Roboto', 14))
+        usuario.place(x=25,y=155)
 
         senha = ctk.CTkEntry(frame, placeholder_text= "Sua senha", show="*",
-                                        width=300, font=('Roboto', 14)).place(x=25,y=195)
+                                    width=300, font=('Roboto', 14))
+        senha.place(x=25,y=195)
 
-        checkbox = ctk.CTkCheckBox(frame, text="Mostrar senha?",  onvalue=1,
-                                            offvalue=0, width=50, height=15).place(x=205,y=235)
 
-        botao = ctk.CTkButton(frame, text="Entrar").place(x=110,y=280)
+        checkbox = ctk.CTkCheckBox(frame, text="Mostrar senha?",command=checkbox_event, variable=check_var,  onvalue=1,
+                                            offvalue=0, width=50, height=15)
+        checkbox.place(x=205,y=235)
+
+        botao = ctk.CTkButton(frame, text="Entrar",font=('Roboto', 14), command=validar_login)
+        botao.place(x=110,y=280)
 
 
 
